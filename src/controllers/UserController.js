@@ -1,10 +1,19 @@
+const AppError = require("../utils/AppError");
+
+// Controller to deal with user requests
 class UserController {
+
+    //function to deal with user creation
     async create(request, response) {
 
         const { name, email, password } = request.body;
 
 
-        response.json({ name, email, password })
+        if(!name) {
+            throw new AppError('Name is required', 400);
+        }
+
+        response.status(201).json({ name, email, password })
     }
 }
 
