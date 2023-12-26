@@ -1,5 +1,5 @@
-//Users table migration
-exports.up = knex => knex.schema.createTable("ingredients", table => {
+//Categories table migration
+exports.up = knex => knex.schema.createTable("categories", table => {
     table.uuid('id').defaultTo(knex.fn.uuid()).primary();
     table.uuid("product_id").references("id").inTable("products").onDelete("CASCADE");
     table.text("name").notNullable();
@@ -8,4 +8,4 @@ exports.up = knex => knex.schema.createTable("ingredients", table => {
 
 });
 
-exports.down = knex => knex.schema.dropTable("ingredients");
+exports.down = knex => knex.schema.dropTable("categories");

@@ -15,9 +15,12 @@ class UserController {
         const userServices = new UserServices(userRepository);
 
         // create a new user
-        const userCreated = await userServices.createUser({ name, email, password });
+        await userServices.createUser({ name, email, password });
 
-        response.status(201).json(userCreated)
+        response.status(201).json({
+            status: "success",
+            message: "Usuário criado com sucesso!"
+        })
     }
 }
 
