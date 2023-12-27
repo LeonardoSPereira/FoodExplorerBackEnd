@@ -24,12 +24,13 @@ class IngredientsRepository {
     // find ingredients by product id
     async findIngredientsByProductId(product_id) {
 
-        // find the ingredients
+        // find the ingredients by product id and order by name
         const ingredients = await knex("ingredients").where({ product_id });
 
         return ingredients;
 
     }
+
 
 }
 

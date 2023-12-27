@@ -12,5 +12,6 @@ const productsRoutes = Router();
 // Create a route to deal with user routes
 productsRoutes.post('/', productsController.create);
 productsRoutes.get("/:id", productsController.show);
+productsRoutes.get("/", productsController.index);
 
 module.exports = productsRoutes;

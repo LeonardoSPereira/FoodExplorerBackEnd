@@ -1,4 +1,5 @@
 const AppError = require("../utils/AppError");
+const IngredientsRepository = require("../repositories/IngredientsRepository");
 
 //class to handle the products db requests
 class ProductsServices {
@@ -38,6 +39,48 @@ class ProductsServices {
 
         return product;
 
+    }
+
+    async listProducts(filter) {
+
+        const ingredientsRepository = new IngredientsRepository();
+
+        let products;
+
+        //if there is a filter, find the products by filter(ingredients or name)
+        if(filter) {
+            products = await this.productsRepository.findProductsByFilter(filter);
+
+
+        } else {
+
+            // if there is no filter, list all products
+            products = await this.productsRepository.findAllProducts();
+        }
+        
+        // if there is no products, throw an error
+        if(!products) {
+            throw new AppError("Nenhum produto encontrado!");
+        }
+
+        // for each product, find the ingredients and add to the product object
+        const productsWithIngredients = await Promise.all(products.map(async product => {
+
+            // find the ingredients
+            const productsIngredients = await ingredientsRepository.findIngredientsByProductId(product.id);
+            
+            // add the ingredients to the product object
+            const ingredients = productsIngredients.filter(ingredient => ingredient.product_id === product.id);
+        
+            // return the product with the ingredients
+            return {
+                ...product,
+                ingredients
+            };
+        }));
+        
+        return productsWithIngredients;
+        
     }
 }
 

@@ -60,6 +60,15 @@ class ProductsRepository {
         }
     }
 
+    async findProductsByFilter(filter) {}
+
+    // list all products
+    async findAllProducts() {
+        
+        const products = await knex("products").orderBy("created_at");
+
+        return products;
+    }
 }
 
 module.exports = ProductsRepository;
