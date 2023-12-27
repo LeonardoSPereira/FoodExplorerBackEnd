@@ -21,6 +21,16 @@ class IngredientsRepository {
         return
     }
 
+    // find ingredients by product id
+    async findIngredientsByProductId(product_id) {
+
+        // find the ingredients
+        const ingredients = await knex("ingredients").where({ product_id });
+
+        return ingredients;
+
+    }
+
 }
 
 module.exports = IngredientsRepository;
