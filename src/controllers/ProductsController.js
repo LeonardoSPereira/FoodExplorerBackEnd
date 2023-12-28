@@ -31,7 +31,7 @@ class ProductsController {
 
           return response.json( product )
      }
-
+     
      // list all products
      async index(request, response) {
           const { filter } = request.query;
@@ -72,6 +72,16 @@ class ProductsController {
           return response.status(200).json({
                status: "success",
                message: "Produto deletado com sucesso!"
+          })
+     }
+
+     async uploadImage(request, response) {
+          const { filename } = request.file;
+          console.log(filename);
+
+          response.status(200).json({
+               status: "success",
+               message: "Imagem enviada com sucesso!",
           })
      }
 }
