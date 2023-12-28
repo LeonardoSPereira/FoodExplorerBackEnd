@@ -7,11 +7,10 @@ class ProductsServices {
         this.productsRepository = productsRepository;
     }
 
-    // create a new product
-    async createProduct({ name, price, description, category, ingredients }) {
+    async createProduct({ title, price, description, category, ingredients }) {
 
         // check if all fields are filled
-        if(!name || !price || !description || !category || !ingredients) {
+        if(!title || !price || !description || !category || !ingredients) {
             throw new AppError("Preencha todos os campos!")
         }
 
@@ -21,13 +20,11 @@ class ProductsServices {
         }
 
         // create the product
-        await this.productsRepository.createProduct({ name, price, description, category, ingredients });
+        await this.productsRepository.createProduct({ title, price, description, category, ingredients });
 
         return
     }
 
-
-    // list one product
     async showOneProduct(id) {
 
         // find the product
@@ -89,6 +86,42 @@ class ProductsServices {
         
         return productsWithIngredients;
         
+    }
+
+    async updateProduct({ id, title, price_in_cents, description, category, ingredients }) {
+        const product = await this.productsRepository.findProductById(id);
+
+        if(!product) {
+            throw new AppError("Produto não encontrado!");
+        }
+
+        // check if there is category and if it is valid
+        if(category && category !== "food" && category !== "drink" && category !== "dessert") {
+            throw new AppError("Categoria inválida!");
+        }
+
+        // update the product with the new values or the old values if there is no new values
+        product.title = title ?? product.title;
+        product.price_in_cents = price_in_cents ?? product.price_in_cents;
+        product.description = description ?? product.description;
+        product.category = category ?? product.category;
+
+        // create the updated product object
+        const updatedProduct = {
+            title: product.title,
+            price: product.price_in_cents,
+            description: product.description,
+            category: product.category
+        }
+
+        // update the product
+        await this.productsRepository.updateProduct({ id, product: updatedProduct, ingredients });
+
+        return;
+    }
+
+    async deleteProduct(id) {
+        await this.productsRepository.deleteProduct(id);
     }
 }
 

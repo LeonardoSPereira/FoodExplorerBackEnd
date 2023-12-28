@@ -55,6 +55,16 @@ class IngredientsRepository {
         }
     }
 
+    async updateIngredients({ ingredients, product_id }) {
+
+        // delete the ingredients
+        await knex("ingredients").where({ product_id }).del();
+
+        // create the ingredients
+        await this.createIngredient({ ingredients, product_id });
+
+        return;
+    }
 }
 
 module.exports = IngredientsRepository;

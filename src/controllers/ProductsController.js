@@ -5,20 +5,20 @@ const ProductsServices = require('../services/ProductsServices');
 // Class to handle the products requests
 class ProductsController {
 
-    // create a new product
-    async create(request, response) {
-       const { name, price_in_cents, description, category, ingredients } = request.body;
+     // create a new product
+     async create(request, response) {
+       const { title, price_in_cents, description, category, ingredients } = request.body;
 
        const productsRepository = new ProductsRepository();
        const productsServices = new ProductsServices(productsRepository);
 
-       await productsServices.createProduct({ name, price: price_in_cents, description, category, ingredients });
+       await productsServices.createProduct({ title, price: price_in_cents, description, category, ingredients });
 
          response.status(201).json({
               status: "success",
               message: "Produto criado com sucesso!"
          })
-    }
+     }
 
      // list one products
      async show(request, response) {
@@ -46,6 +46,34 @@ class ProductsController {
           return response.json(products);
      }
 
+     async update(request, response) {
+          const { title, price_in_cents, description, category, ingredients } = request.body;
+          const { id } = request.params;
+
+          const productsRepository = new ProductsRepository();
+          const productsServices = new ProductsServices(productsRepository);
+
+          await productsServices.updateProduct({ id, title, price_in_cents, description, category, ingredients });
+
+          return response.status(200).json({
+               status: "success",
+               message: "Produto atualizado com sucesso!"
+          })
+     }
+
+     async delete(request, response) {
+          const { id } = request.params;
+
+          const productsRepository = new ProductsRepository();
+          const productsServices = new ProductsServices(productsRepository);
+
+          await productsServices.deleteProduct(id);
+
+          return response.status(200).json({
+               status: "success",
+               message: "Produto deletado com sucesso!"
+          })
+     }
 }
 
 module.exports = ProductsController;

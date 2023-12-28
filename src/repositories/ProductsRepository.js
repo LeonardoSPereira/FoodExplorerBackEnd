@@ -5,7 +5,7 @@ const IngredientsRepository = require('./IngredientsRepository');
 // class to handle the products db requests
 class ProductsRepository {
     
-    async createProduct({ name, price, description, category, ingredients }) {
+    async createProduct({ title, price, description, category, ingredients }) {
         
         const ingredientsRepository = new IngredientsRepository();
         
@@ -17,7 +17,7 @@ class ProductsRepository {
         
         //create the product and return the id
         const [product] = await knex("products").insert({
-            name,
+            title,
             price_in_cents: priceInCents,
             description,
             category
@@ -86,6 +86,47 @@ class ProductsRepository {
         const products = await knex("products").orderBy("created_at");
 
         return products;
+    }
+
+    async updateProduct({ id, product, ingredients }){
+
+        const ingredientsRepository = new IngredientsRepository();
+
+        let priceInCents = product.price;
+
+        //format the price to number and cents if the price is a string
+        if(typeof product.price !== "number") {
+
+            const formattedPrice = product.price.replace(",", ".");
+            const parsedPrice = parseFloat(formattedPrice);
+            priceInCents = parsedPrice * 100;
+
+        }
+
+        // update the product
+        await knex("products")
+         .where({ id })
+         .update({
+            title: product.title,
+            price_in_cents: priceInCents,
+            description: product.description,
+            category: product.category,
+            updated_at: knex.fn.now()
+         });
+
+        // if the product has ingredients, update the ingredients
+        if(ingredients) {
+            await ingredientsRepository.updateIngredients({ ingredients, product_id: id });
+        }
+
+        return;
+    }
+
+    async deleteProduct(id) {
+
+        await knex("products").where({ id }).del();
+
+        return;
     }
 }
 

@@ -13,5 +13,7 @@ const productsRoutes = Router();
 productsRoutes.post('/', productsController.create);
 productsRoutes.get("/:id", productsController.show);
 productsRoutes.get("/", productsController.index);
+productsRoutes.put("/:id", productsController.update);
+productsRoutes.delete("/:id", productsController.delete)
 
 module.exports = productsRoutes;
