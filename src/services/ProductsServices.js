@@ -49,21 +49,29 @@ class ProductsServices {
 
         //if there is a filter, find the products by filter(ingredients or name)
         if(filter) {
-            products = await this.productsRepository.findProductsByFilter(filter);
 
+            // split the filter string into an array
+            const splittedFilter = filter.split(",").map(item => item.trim());
+
+            // find the products by filter
+            products = await this.productsRepository.findProductsByFilter(splittedFilter);
 
         } else {
 
             // if there is no filter, list all products
             products = await this.productsRepository.findAllProducts();
+
         }
+
         
         // if there is no products, throw an error
         if(!products) {
             throw new AppError("Nenhum produto encontrado!");
         }
 
+
         // for each product, find the ingredients and add to the product object
+        //Promise.all() is used to ensure that all these asynchronous operations are completed before proceeding.
         const productsWithIngredients = await Promise.all(products.map(async product => {
 
             // find the ingredients

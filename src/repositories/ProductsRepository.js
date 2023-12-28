@@ -5,7 +5,6 @@ const IngredientsRepository = require('./IngredientsRepository');
 // class to handle the products db requests
 class ProductsRepository {
     
-    // create a new product
     async createProduct({ name, price, description, category, ingredients }) {
         
         const ingredientsRepository = new IngredientsRepository();
@@ -60,9 +59,28 @@ class ProductsRepository {
         }
     }
 
-    async findProductsByFilter(filter) {}
+    async findProductsByFilter(filter) {
 
-    // list all products
+        const ingredientsRepository = new IngredientsRepository();
+
+        // find the products by filter
+        const [filteredProducts] = await Promise.all(filter.map(async product => {
+            
+            // find the products by filter
+            const products = await knex("products").whereLike("title", `%${product}%`).orderBy("title");
+            
+            return products;
+            
+        }))
+
+        // find the ingredients by filter
+        const filteredIngredients = await ingredientsRepository.findIngredientsByFilter(filter);
+
+        // return the products and ingredients
+        return [...filteredProducts, ...filteredIngredients];
+
+    }
+
     async findAllProducts() {
         
         const products = await knex("products").orderBy("created_at");
