@@ -3,6 +3,7 @@ const express = require('express');
 const routes = require('./routes');
 const AppError = require('./utils/AppError');
 const database = require('./database');
+const uploadConfig = require("./config/upload");
 
 const app = express();
 
@@ -10,6 +11,10 @@ app.use(express.json());
 
 app.use(routes);
 
+//route to serve the uploaded files
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
+
+// connect to the database
 database();
 
 // Error handling middleware

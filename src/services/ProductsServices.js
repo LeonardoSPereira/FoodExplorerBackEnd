@@ -1,5 +1,6 @@
 const AppError = require("../utils/AppError");
 const IngredientsRepository = require("../repositories/IngredientsRepository");
+const DiskStorage = require("../providers/DiskStorage")
 
 //class to handle the products db requests
 class ProductsServices {
@@ -20,9 +21,9 @@ class ProductsServices {
         }
 
         // create the product
-        await this.productsRepository.createProduct({ title, price, description, category, ingredients });
+        const createdProductId = await this.productsRepository.createProduct({ title, price, description, category, ingredients });
 
-        return
+        return createdProductId;
     }
 
     async showOneProduct(id) {
@@ -88,7 +89,7 @@ class ProductsServices {
         
     }
 
-    async updateProduct({ id, title, price_in_cents, description, category, ingredients }) {
+    async updateProduct({ id, title, price_in_cents, description, category, ingredients, image }) {
         const product = await this.productsRepository.findProductById(id);
 
         if(!product) {
@@ -105,13 +106,15 @@ class ProductsServices {
         product.price_in_cents = price_in_cents ?? product.price_in_cents;
         product.description = description ?? product.description;
         product.category = category ?? product.category;
+        product.image = image ?? product.image;
 
         // create the updated product object
         const updatedProduct = {
             title: product.title,
             price: product.price_in_cents,
             description: product.description,
-            category: product.category
+            category: product.category,
+            image: product.image
         }
 
         // update the product
@@ -122,6 +125,33 @@ class ProductsServices {
 
     async deleteProduct(id) {
         await this.productsRepository.deleteProduct(id);
+    }
+
+    async uploadImage({ product_id, image }) {
+
+        const diskStorage = new DiskStorage();
+        
+        // find the product
+        const product = await this.productsRepository.findProductById(product_id);
+
+        // if the product is not found, throw an error
+        if(!product) {
+            throw new AppError("Produto não encontrado!");
+        }
+
+        // if the product already has an image, delete the old image
+        if(product.image) {
+            await diskStorage.deleteFile(product.image);
+        }
+
+        // save the new image
+        const filename = await diskStorage.saveFile(image);
+        product.image = filename;
+
+        // update the product with the new image
+        await this.updateProduct({ id: product_id, image: product.image });
+
+        return;
     }
 }
 

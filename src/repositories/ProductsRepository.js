@@ -26,6 +26,7 @@ class ProductsRepository {
         // create the ingredients
         await ingredientsRepository.createIngredient({ ingredients, product_id: product.id });
 
+        return product.id;
     }
 
     async findProductById(id) {
@@ -111,6 +112,7 @@ class ProductsRepository {
             price_in_cents: priceInCents,
             description: product.description,
             category: product.category,
+            image: product.image,
             updated_at: knex.fn.now()
          });
 

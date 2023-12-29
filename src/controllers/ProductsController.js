@@ -1,7 +1,6 @@
 const ProductsRepository = require('../repositories/ProductsRepository');
 const ProductsServices = require('../services/ProductsServices');
 
-
 // Class to handle the products requests
 class ProductsController {
 
@@ -12,11 +11,12 @@ class ProductsController {
        const productsRepository = new ProductsRepository();
        const productsServices = new ProductsServices(productsRepository);
 
-       await productsServices.createProduct({ title, price: price_in_cents, description, category, ingredients });
+       const productId = await productsServices.createProduct({ title, price: price_in_cents, description, category, ingredients });
 
          response.status(201).json({
               status: "success",
-              message: "Produto criado com sucesso!"
+              message: "Produto criado com sucesso!",
+              productId: productId
          })
      }
 
@@ -75,13 +75,19 @@ class ProductsController {
           })
      }
 
+     // upload the image
      async uploadImage(request, response) {
-          const { filename } = request.file;
-          console.log(filename);
+          const { product_id } = request.params;
+          const imageFileName = request.file.filename;
+
+          const productsRepository = new ProductsRepository();
+          const productsServices = new ProductsServices(productsRepository);
+
+          await productsServices.uploadImage({ product_id, image: imageFileName });
 
           response.status(200).json({
                status: "success",
-               message: "Imagem enviada com sucesso!",
+               message: "Imagem salva com sucesso!",
           })
      }
 }
