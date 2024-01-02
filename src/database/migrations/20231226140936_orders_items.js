@@ -6,6 +6,7 @@ exports.up = knex => knex.schema.createTable("order_items", table => {
 
     table.integer("quantity").notNullable();
     table.integer("price_per_item").notNullable();
+    table.integer("total_price").notNullable();
     
     table.timestamp("created_at").defaultTo(knex.fn.now());
 
