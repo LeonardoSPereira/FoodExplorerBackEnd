@@ -9,9 +9,8 @@ const favoritesController = new FavoritesController();
 const favoritesRoutes = Router();
 
 //defining the routes for the favorites table
-favoritesRoutes.get("/", favoritesController.index);
+favoritesRoutes.get("/:user_id", favoritesController.index);
 favoritesRoutes.post("/", favoritesController.create);
 favoritesRoutes.delete("/:id", favoritesController.delete);
-
 
 module.exports = favoritesRoutes;
