@@ -4,10 +4,21 @@ const routes = require('./routes');
 const AppError = require('./utils/AppError');
 const database = require('./database');
 const uploadConfig = require("./config/upload");
+const cors = require('cors');
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
 app.use(express.json());
+
+// enable cors
+app.use(cors({
+    origin: '*',
+    credentials: true
+}));
+
+// enable cookie parser
+app.use(cookieParser());
 
 app.use(routes);
 
