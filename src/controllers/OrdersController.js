@@ -21,11 +21,32 @@ class OrdersController {
     }
 
     async index(request, response) {
-        response.send("Orders index");
+        const { user_id } = request.query;
+
+        const ordersRepository = new OrdersRepository();
+        const ordersServices = new OrdersServices(ordersRepository);
+
+        const orders = await ordersServices.listAllProducts({ user_id });
+
+        return response.status(200).json({
+            status: "success",
+            orders
+        })
+        
     }
 
     async show(request, response) {
-        response.send("Orders show");
+        const { id } = request.params;
+
+        const ordersRepository = new OrdersRepository();
+        const ordersServices = new OrdersServices(ordersRepository);
+
+        const order = await ordersServices.listOrderById({ id });
+
+        return response.json({
+            status: "success",
+            order
+        })
     }
 
 

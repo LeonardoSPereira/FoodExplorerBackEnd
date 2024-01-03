@@ -41,6 +41,18 @@ class OrdersItemsRepository {
         }
     }
 
+    async listOrderItemsByOrderId(order_id) {
+        try {
+            //list all order items from the order
+            const orderItems = await knex("order_items").where({ order_id });
+
+            return orderItems;
+
+        } catch {
+            throw new AppError("Erro ao listar itens do pedido", 500);
+        }
+    }
+
 }
 
 module.exports = OrdersItemsRepository;

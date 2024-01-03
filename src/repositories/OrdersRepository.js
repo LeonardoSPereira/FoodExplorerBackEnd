@@ -22,6 +22,71 @@ class OrdersRepository {
         }
     }
 
+    async listAllOrders() {
+
+        const ordersItemsRepository = new OrdersItemsRepository();
+        
+        try {
+            //list all orders
+            const orders = await knex("orders").select("*").orderBy("created_at", "desc");
+
+            let ordersWithItems = [];
+            
+            //for each order, get the order items and add them to the order object
+            for(let i = 0; i < orders.length; i++) {
+                const orderItems = await ordersItemsRepository.listOrderItemsByOrderId(orders[i].id);
+                ordersWithItems = [...ordersWithItems, { ...orders[i], orderItems }];
+            }
+            
+
+            return ordersWithItems;
+
+        } catch {
+            throw new AppError("Erro ao listar pedidos", 500);
+        }
+    }
+
+    async listOrdersByUserId(user_id) {
+        const ordersItemsRepository = new OrdersItemsRepository();
+
+        try {
+            //list all orders from the user
+            const orders = await knex("orders").where({ user_id }).select("*").orderBy("created_at", "desc");
+            let ordersWithItems = [];
+
+            //for each order, get the order items and add them to the order object
+            for(let i = 0; i < orders.length; i++) {
+                const orderItems = await ordersItemsRepository.listOrderItemsByOrderId(orders[i].id);
+                ordersWithItems = [...ordersWithItems, {...orders[i], orderItems}];
+            }
+
+            return ordersWithItems;
+
+        } catch {
+            throw new AppError("Erro ao listar pedidos", 500);
+        }
+    }
+
+    async listOrderById(id) {
+        const ordersItemsRepository = new OrdersItemsRepository();
+
+        try {
+            //list the order by id
+            const order = await knex("orders").where({ id }).first();
+
+            //list the order items by order id
+            const orderItems = await ordersItemsRepository.listOrderItemsByOrderId(id);
+
+            //add the order items to the order object
+            const orderWithItems = {...order, orderItems};
+
+            return orderWithItems;
+
+        } catch {
+            throw new AppError("Erro ao listar pedido", 500);
+        }
+    }
+
 }
 
 module.exports = OrdersRepository;
