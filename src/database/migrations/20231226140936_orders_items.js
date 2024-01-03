@@ -2,7 +2,7 @@ exports.up = knex => knex.schema.createTable("order_items", table => {
     table.uuid('id').primary().defaultTo(knex.fn.uuid());
 
     table.uuid("order_id").references("id").inTable("orders").onDelete("CASCADE");
-    table.uuid("product_id").references("id").inTable("products");
+    table.uuid("product_id").references("id").inTable("products").onDelete("CASCADE");
 
     table.integer("quantity").notNullable();
     table.integer("price_per_item").notNullable();

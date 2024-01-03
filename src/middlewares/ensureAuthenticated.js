@@ -5,15 +5,19 @@ const authConfig = require("../config/auth");
 function ensureAuthenticated(request, response, next) {
 
     // get request header
-    const authHeader = request.headers.authorization;
+    const authHeader = request.headers;
 
     // check if request header exists 
-    if(!authHeader) {
+    if(!authHeader.cookie) {
         throw new AppError("Token JWT não encontrado", 401);
     }
 
     // split request header cookie to get token
     const [, token] = authHeader.cookie.split("token=");
+
+    if(!token) {
+        throw new AppError("Token JWT não encontrado", 401);
+    }
 
     try {
         // verify if token is valid and get user id and admin status
@@ -28,7 +32,7 @@ function ensureAuthenticated(request, response, next) {
         //continue
         return next()
 
-    } catch (error) {
+    } catch {
         throw new AppError("Token JWT inválido", 401);
     }
 }

@@ -7,7 +7,8 @@ class FavoritesController {
 
     //this method should create a new favorite in the database
     async create(request, response) {
-        const { user_id, product_id } = request.body;
+        const { product_id } = request.body;
+        const user_id = request.user.id;
 
         const favoritesRepository = new FavoritesRepository();
         const favoritesServices = new FavoritesServices(favoritesRepository);
@@ -24,7 +25,7 @@ class FavoritesController {
 
     //this method should list all favorites from the database
     async index(request, response) {
-        const { user_id } = request.params;
+        const user_id = request.user.id;
 
         const favoritesRepository = new FavoritesRepository();
         const favoritesServices = new FavoritesServices(favoritesRepository);

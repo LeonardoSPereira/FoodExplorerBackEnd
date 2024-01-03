@@ -5,7 +5,7 @@ const OrdersRepository = require("../repositories/OrdersRepository");
 class OrdersController {
     
     async create(request, response) {
-        const { user_id } = request.params;
+        const user_id = request.user.id;
         const { orderItems } = request.body;
         
         const ordersRepository = new OrdersRepository();
@@ -21,7 +21,7 @@ class OrdersController {
     }
 
     async index(request, response) {
-        const { user_id } = request.query;
+        const user_id = request.user.id;
 
         const ordersRepository = new OrdersRepository();
         const ordersServices = new OrdersServices(ordersRepository);

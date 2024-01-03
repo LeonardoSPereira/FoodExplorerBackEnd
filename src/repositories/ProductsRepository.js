@@ -163,7 +163,8 @@ class ProductsRepository {
 
             return;
         
-        } catch {
+        } catch (error){
+            console.error(error);
             //if there is an error, throw an error
             throw new AppError("Falha ao deletar produto. Tente novamente mais tarde", 500);
         }
