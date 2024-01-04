@@ -1,7 +1,6 @@
 const Router = require('express');
 const UserController = require('../controllers/UserController');
 
-
 // Create a new instance of the UserController class
 const userController = new UserController();
 

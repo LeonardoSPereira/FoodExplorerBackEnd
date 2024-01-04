@@ -1,8 +1,5 @@
 const UserRepository = require('../repositories/UserRepository');
-const AppError = require("../utils/AppError");
-const { compare } = require("bcryptjs");
-const authConfig = require("../config/auth");
-const { sign } = require("jsonwebtoken");
+const SessionsServices = require('../services/SessionsServices');
 
 class SessionsController {
 
@@ -11,41 +8,18 @@ class SessionsController {
         const { email, password } = request.body;
 
         const userRepository = new UserRepository();
+        const sessionsServices = new SessionsServices(userRepository);
 
-        // check if user exists
-        const user = await userRepository.findUserByEmail(email);
-
-        // if user does not exists, throw error
-        if(!user) {
-            throw new AppError("Email ou senha incorretos", 401);
-        }
-
-        // check if password is correct
-        const passwordMatch = await compare(password, user.password);
-
-        // if password is incorrect, throw error
-        if(!passwordMatch) {
-            throw new AppError("Email ou senha incorretos", 401);
-        }
-
-        const { secret, expiresIn } = authConfig.jwt;
-
-        // generate token with user id and admin status
-        const token = sign({ isAdmin: user.isAdmin }, secret, {
-            subject: user.id,
-            expiresIn
-        })
+        const { user, token } = await sessionsServices.createSession({ email, password });
+        
 
         // set token to cookie
         response.cookie("token", token, {
             httpOnly: true,
             sameSite: "none",
             secure: true,
-            maxAge: 15 * 60 * 1000
+            maxAge: 15 * 60 * 1000 // 15 minutes
         })
-
-        // delete password from user object
-        delete user.password;
 
         response.status(201).json({user, token})
     }

@@ -36,12 +36,10 @@ class ProductsController {
      async index(request, response) {
           const { filter } = request.query;
 
-
           const productsRepository = new ProductsRepository();
           const productsServices = new ProductsServices(productsRepository);
 
           const products = await productsServices.listProducts(filter);
-
 
           return response.json(products);
      }

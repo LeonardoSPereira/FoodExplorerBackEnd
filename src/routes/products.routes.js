@@ -26,7 +26,6 @@ productsRoutes.post('/', verifyUserAuthorization, productsController.create);
 productsRoutes.post("/image/:product_id", verifyUserAuthorization, upload.single("image"), productsController.uploadImage)
 
 productsRoutes.put("/:id", verifyUserAuthorization, productsController.update);
-
 productsRoutes.delete("/:id", verifyUserAuthorization, productsController.delete)
 
 

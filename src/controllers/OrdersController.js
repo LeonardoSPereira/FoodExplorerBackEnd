@@ -5,8 +5,8 @@ const OrdersRepository = require("../repositories/OrdersRepository");
 class OrdersController {
     
     async create(request, response) {
-        const user_id = request.user.id;
         const { orderItems } = request.body;
+        const user_id = request.user.id;
         
         const ordersRepository = new OrdersRepository();
         const ordersServices = new OrdersServices(ordersRepository);
@@ -48,7 +48,6 @@ class OrdersController {
             order
         })
     }
-
 
 }
 
