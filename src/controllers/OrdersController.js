@@ -15,7 +15,7 @@ class OrdersController {
 
         return response.status(201).json({
             status: "success",
-            message: "Produto criado com sucesso"
+            message: "Pedido criado com sucesso"
         })
 
     }

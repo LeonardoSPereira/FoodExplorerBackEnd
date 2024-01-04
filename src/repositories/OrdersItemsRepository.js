@@ -24,12 +24,15 @@ class OrdersItemsRepository {
                     pricePerItem = parsedPrice * 100;
                 }
 
+                const totalPrice = parsedQuantity * pricePerItem;
+
                 //insert the order into the order_items table
                 await knex("order_items").insert({
                     order_id,
                     product_id: order.product_id,
                     quantity: parsedQuantity,
-                    price_per_item: pricePerItem
+                    price_per_item: pricePerItem,
+                    total_price: totalPrice
                 });
 
             });
@@ -44,9 +47,18 @@ class OrdersItemsRepository {
     async listOrderItemsByOrderId(order_id) {
         try {
             //list all order items from the order
-            const orderItems = await knex("order_items").where({ order_id });
+            const orderItems = await knex("order_items")
+             .select([
+                "products.id",
+                "products.title",
+                "products.price_in_cents",
+                "order_items.quantity",
+                "products.image",
+             ])
+             .where({ order_id })
+             .innerJoin("products", "products.id", "order_items.product_id");
 
-            return orderItems;
+            return orderItems;  
 
         } catch {
             throw new AppError("Erro ao listar itens do pedido", 500);
