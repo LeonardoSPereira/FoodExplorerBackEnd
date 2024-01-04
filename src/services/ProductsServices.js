@@ -20,6 +20,13 @@ class ProductsServices {
             throw new AppError("Categoria inválida!");
         }
 
+        // check if the product already exists
+        const productAlreadyExists = await this.productsRepository.findProductByTitle(title);
+
+        if(productAlreadyExists) {
+            throw new AppError("Produto já cadastrado!");
+        }
+
         // create the product
         const createdProductId = await this.productsRepository.createProduct({ title, price, description, category, ingredients });
 
@@ -69,7 +76,8 @@ class ProductsServices {
 
 
         // for each product, find the ingredients and add to the product object
-        //Promise.all() is used to ensure that all these asynchronous operations are completed before proceeding.
+        
+        // Promise.all() is used to ensure that all these asynchronous operations are completed before proceeding.
         const productsWithIngredients = await Promise.all(products.map(async product => {
 
             // find the ingredients

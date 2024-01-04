@@ -37,6 +37,20 @@ class ProductsRepository {
         }
     }
 
+    async findProductByTitle(title) {
+            
+            try {
+                // find the product by title
+                const productByTitle = await knex("products").where({ title }).first();
+    
+                return productByTitle;
+    
+            } catch {
+                //if there is an error, throw an error
+                throw new AppError("Falha ao buscar produto. Tente novamente mais tarde", 500);
+            }
+    }
+
     async findProductById(id) {
 
         const ingredientsRepository = new IngredientsRepository();

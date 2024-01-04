@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node --watch ./src/server.js",
     "migrate": "knex migrate:latest",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "keywords": [],
   "author": "Leonardo Pereira",
