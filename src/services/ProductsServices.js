@@ -27,7 +27,7 @@ class ProductsServices {
             throw new AppError("Produto já cadastrado!");
         }
 
-        // create the product
+        // create the product and return the id
         const createdProductId = await this.productsRepository.createProduct({ title, price, description, category, ingredients });
 
         return createdProductId;
