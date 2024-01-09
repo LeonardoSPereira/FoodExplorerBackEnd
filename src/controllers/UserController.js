@@ -18,7 +18,7 @@ class UserController {
         await userServices.createUser({ name, email, password });
 
         response.status(201).json({
-            status: "success",
+            status: "Success",
             message: "Usuário criado com sucesso!"
         })
     }

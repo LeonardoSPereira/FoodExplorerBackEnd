@@ -17,6 +17,17 @@ class UserServices {
             throw new AppError("Preencha todos os campos!");
         }
 
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        const validEmail = validateEmail(email);
+
+        if(!validEmail) {
+            throw new AppError("Formato de e-mail inválido!")
+        }
+
         // check if the email is already in use
         const userExists = await this.userRepository.findUserByEmail(email);
 
