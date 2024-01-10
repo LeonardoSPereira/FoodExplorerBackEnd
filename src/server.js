@@ -14,7 +14,7 @@ app.use(express.json());
 
 // enable cors
 app.use(cors({
-    origin: '*',
+    origin: ["http://localhost:5173", "http:127.0.0.1:5173"],
     credentials: true
 }));
 
@@ -33,7 +33,7 @@ database();
 app.use((error, request, response, next) => {
     if(error instanceof AppError) {
         return response.status(error.statusCode).json({
-            status: 'error',
+            status: 'Error',
             message: error.message
         });
     }
@@ -41,7 +41,7 @@ app.use((error, request, response, next) => {
     console.error(error);
 
     return response.status(500).json({
-        status: 'error',
+        status: 'Error',
         message: 'Internal server error'
     });
 })

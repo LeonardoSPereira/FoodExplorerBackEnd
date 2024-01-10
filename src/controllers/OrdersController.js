@@ -14,7 +14,7 @@ class OrdersController {
         await ordersServices.createProduct({ user_id, orderItems });
 
         return response.status(201).json({
-            status: "success",
+            status: "Success",
             message: "Pedido criado com sucesso"
         })
 
@@ -29,7 +29,7 @@ class OrdersController {
         const orders = await ordersServices.listAllProducts({ user_id });
 
         return response.status(200).json({
-            status: "success",
+            status: "Success",
             orders
         })
         
@@ -44,7 +44,7 @@ class OrdersController {
         const order = await ordersServices.listOrderById({ id });
 
         return response.json({
-            status: "success",
+            status: "Success",
             order
         })
     }

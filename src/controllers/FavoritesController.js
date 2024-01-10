@@ -18,7 +18,7 @@ class FavoritesController {
 
 
         return response.status(201).json({
-            status: "success",
+            status: "Success",
             message: "Produto favoritado com sucesso!",
         })
     }
@@ -50,7 +50,7 @@ class FavoritesController {
 
 
         return response.json({
-            status: "success",
+            status: "Success",
             message: "Produto removido dos favoritos com sucesso!",
         })
 

@@ -14,7 +14,7 @@ class ProductsController {
        const productId = await productsServices.createProduct({ title, price: price_in_cents, description, category, ingredients });
 
          response.status(201).json({
-              status: "success",
+              status: "Success",
               message: "Produto criado com sucesso!",
               productId: productId
          })
@@ -54,7 +54,7 @@ class ProductsController {
           await productsServices.updateProduct({ id, title, price_in_cents, description, category, ingredients });
 
           return response.status(200).json({
-               status: "success",
+               status: "Success",
                message: "Produto atualizado com sucesso!"
           })
      }
@@ -68,7 +68,7 @@ class ProductsController {
           await productsServices.deleteProduct(id);
 
           return response.status(200).json({
-               status: "success",
+               status: "Success",
                message: "Produto deletado com sucesso!"
           })
      }
@@ -84,7 +84,7 @@ class ProductsController {
           await productsServices.uploadImage({ product_id, image: imageFileName });
 
           response.status(200).json({
-               status: "success",
+               status: "Success",
                message: "Imagem salva com sucesso!",
           })
      }
