@@ -13,7 +13,7 @@ favoritesRoutes.use(ensureAuthenticated);
 
 //defining the routes for the favorites table
 favoritesRoutes.get("/", favoritesController.index);
-favoritesRoutes.post("/", favoritesController.create);
+favoritesRoutes.post("/:id", favoritesController.create);
 favoritesRoutes.delete("/:id", favoritesController.delete);
 
 module.exports = favoritesRoutes;
