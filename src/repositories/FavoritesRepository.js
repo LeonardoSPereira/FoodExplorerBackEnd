@@ -64,7 +64,7 @@ class FavoritesRepository {
 
         try {
             //delete the favorite with the given id
-            await knex("favorites").where({ id }).del()
+            await knex("favorites").where({ product_id: id }).del()
 
         } catch {
             //if there is an error, throw an error

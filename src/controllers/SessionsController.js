@@ -18,7 +18,7 @@ class SessionsController {
             httpOnly: true,
             sameSite: "none",
             secure: true,
-            maxAge: 30 * 60 * 1000 // 30 minutes
+            maxAge: 5 * 24 * 60 * 60 * 1000 // 5 days
         })
 
         response.status(201).json({user, token})

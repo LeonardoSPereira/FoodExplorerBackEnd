@@ -7,14 +7,14 @@ class FavoritesController {
 
     //this method should create a new favorite in the database
     async create(request, response) {
-        const { product_id } = request.params;
+        const { id } = request.params;
         const user_id = request.user.id;
 
         const favoritesRepository = new FavoritesRepository();
         const favoritesServices = new FavoritesServices(favoritesRepository);
 
         //create a new favorite in the database
-        await favoritesServices.createFavorite({ user_id, product_id });
+        await favoritesServices.createFavorite({ user_id, product_id: id });
 
 
         return response.status(201).json({
@@ -40,7 +40,6 @@ class FavoritesController {
     //this method should delete a favorite from the database
     async delete(request, response) {
         const { id } = request.params;
-
 
         const favoritesRepository = new FavoritesRepository();
         const favoritesServices = new FavoritesServices(favoritesRepository);
