@@ -81,7 +81,8 @@ class ProductsRepository {
 
                 return productById;
             }
-        } catch {
+        } catch (error) {
+            console.error(error);
             //if there is an error, throw an error
             throw new AppError("Falha ao buscar produto. Tente novamente mais tarde", 500);
         }

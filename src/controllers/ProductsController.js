@@ -75,13 +75,13 @@ class ProductsController {
 
      // upload the image
      async uploadImage(request, response) {
-          const { product_id } = request.params;
+          const { id } = request.params;
           const imageFileName = request.file.filename;
 
           const productsRepository = new ProductsRepository();
           const productsServices = new ProductsServices(productsRepository);
 
-          await productsServices.uploadImage({ product_id, image: imageFileName });
+          await productsServices.uploadImage({ product_id: id, image: imageFileName });
 
           response.status(200).json({
                status: "Success",
