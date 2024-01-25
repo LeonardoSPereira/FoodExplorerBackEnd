@@ -49,6 +49,21 @@ class OrdersController {
         })
     }
 
+    async update(request, response) {
+        const { id } = request.params;
+        const { status } = request.body;
+
+        const ordersRepository = new OrdersRepository();
+        const ordersServices = new OrdersServices(ordersRepository);
+
+        await ordersServices.updateOrder({ id, status });
+
+        return response.status(200).json({
+            status: "Success",
+            message: "Pedido atualizado com sucesso"
+        })
+    }
+
 }
 
 module.exports = OrdersController;

@@ -76,6 +76,36 @@ class OrdersServices {
 
     }
 
+    async updateOrder({ id, status }) {
+
+        //check if the id is present
+        if(!id) {
+            throw new AppError("Pedido não informado");
+        }
+
+        // check if there is an order with the given id
+        const order = await this.ordersRepository.listOrderById(id);
+
+        if(!order) {
+            throw new AppError("Pedido não encontrado");
+        }
+
+        //check if the status is present
+        if(!status) {
+            throw new AppError("Status não informado");
+        }
+
+        //check if the status is valid
+        if(status !== "pending" && status !== "preparing" && status !== "delivered") {
+            throw new AppError("Status inválido");
+        }
+
+        //update the order
+        const updated = await this.ordersRepository.updateOrder({ id, status })
+
+        return updated;
+    }
+
 }
 
 module.exports = OrdersServices;

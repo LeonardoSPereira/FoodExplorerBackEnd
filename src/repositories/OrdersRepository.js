@@ -87,6 +87,17 @@ class OrdersRepository {
         }
     }
 
+    async updateOrder({ id, status }) {
+        try {
+            //update the order status
+            await knex("orders").where({ id }).update({ status });
+
+            return
+        } catch {
+            throw new AppError("Erro ao atualizar pedido", 500);
+        }
+    }
+
 }
 
 module.exports = OrdersRepository;
