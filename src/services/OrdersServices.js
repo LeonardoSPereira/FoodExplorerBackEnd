@@ -44,15 +44,18 @@ class OrdersServices {
             throw new AppError("Usuário não encontrado");
         }
 
-        if(user.isAdmin == true) {
+        let orders;
+
+        if(user.isAdmin) {
             //if the user is an admin, list all orders
-            const orders = await this.ordersRepository.listAllOrders();
+            orders = await this.ordersRepository.listAllOrders();
 
             return orders;
-        } 
+        } else {
+            //if the user is not an admin, list only the orders of the user
+            orders = await this.ordersRepository.listOrdersByUserId(user_id);
+        }
 
-        //if the user is not an admin, list only the orders of the user
-        const orders = await this.ordersRepository.listOrdersByUserId(user_id);
 
         return orders;
 
