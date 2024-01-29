@@ -2,6 +2,7 @@ const Router = require("express");
 
 const OrdersController = require("../controllers/OrdersController");
 const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
+const verifyUserAuthorization = require("../middlewares/verifyUserAuthorization");
 
 //creating a new instance of the OrdersController class
 const ordersController = new OrdersController();
@@ -15,7 +16,7 @@ ordersRoutes.use(ensureAuthenticated);
 ordersRoutes.get("/", ordersController.index);
 ordersRoutes.get("/:id", ordersController.show);
 ordersRoutes.post("/", ordersController.create);
-ordersRoutes.patch("/:id", ordersController.update);
+ordersRoutes.patch("/:id", verifyUserAuthorization, ordersController.update);
 
 
 
