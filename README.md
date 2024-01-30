@@ -110,7 +110,7 @@ Os testes foram desenvolvidos utilizando o Jest.
 
 ## 🚀 Deploy <a name = "deployment_pt"></a>
 O deploy da aplicação foi realizado utilizando o plano gratuito do Render e por isso, a aplicação pode demorar alguns segundos para iniciar devido ao plano gratuito do Render colocar a aplicação em modo de hibernação após 30 minutos de inatividade.
-O deploy pode ser acessado através do endereço: <code>https://food-explorer-backend.onrender.com/</code>.
+O deploy pode ser acessado através do endereço: <code>https://foodexplorer-api-nxjr.onrender.com</code>.
 
 ## 🎈 Usando <a name="usage_pt"></a>
 Para utilizar a aplicação, você pode utilizar o front-end desenvolvido para ela, que pode ser encontrado [aqui](https://github.com/LeonardoSPereira/FoodExplorerFrontEnd).<br>
@@ -234,7 +234,7 @@ The tests were developed using Jest.
 
 ## 🚀 Deployment <a name = "deployment_en"></a>
 The application was deployed using the free Render plan. Therefore, the application may take a few seconds to start due to the Render free plan putting the application in hibernation mode after 30 minutes of inactivity.
-The deployment can be accessed at the address: <code>https://food-explorer-backend.onrender.com/</code>.
+The deployment can be accessed at the address: <code>https://foodexplorer-api-nxjr.onrender.com</code>.
 
 ## 🎈 Usage <a name="usage_en"></a>
 To use the application, you can use the frontend developed for it, which can be found [here](https://github.com/LeonardoSPereira/FoodExplorerFrontEnd).<br>
